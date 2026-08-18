@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
-import { sendOmnichannel, getOmnichannelStatus } from './omnichannel.js';
+import { sendOmnichannel } from './omnichannel.js';
 
 const ROUTES = [
   { origem: 'Goiânia', destino: 'Belém', estado_origem: 'GO', estado_destino: 'PA', tipo_carga: 'Alimentos', tipo_veiculo: 'Baú', frequencia: 'Semanal', capacidade: '12 ton' },
@@ -66,6 +66,39 @@ export async function getMode(client) {
   return (data?.modo_operacao || 'OBSERVACAO');
 }
 
+async function recordAutomationRun(client, {
+  source,
+  mode,
+  status,
+  counts = {},
+  generated = {},
+  notification = null,
+  erro = null,
+}) {
+  const summary = notification?.summary || {};
+  const payload = {
+    source,
+    mode,
+    status,
+    leads: counts.leads ?? 0,
+    cargas: counts.cargas ?? 0,
+    oportunidades: counts.oportunidades ?? 0,
+    palavras_chave: counts.palavras_chave ?? 0,
+    oportunidades_geradas: generated.opportunities ?? 0,
+    conteudos_gerados: generated.contents ?? 0,
+    palavras_processadas: generated.keywords ?? 0,
+    whatsapp_enviados: summary.sent ?? 0,
+    whatsapp_falhos: summary.failed ?? 0,
+    whatsapp_pulados: summary.skipped ?? 0,
+    erro,
+  };
+
+  const { error } = await client.from('automation_runs').insert(payload);
+  if (error) {
+    console.warn('Automation telemetry failed:', error.message);
+  }
+}
+
 /**
  * Backward compatibility: send to all configured channels
  */
@@ -74,18 +107,14 @@ export async function sendWhatsAppNotification({
   message,
   dryRun = false,
 } = {}) {
-  // Usar novo sistema omnichannel
-  const result = await sendOmnichannel({
+  return sendOmnichannel({
     phone: phone || process.env.WHATSAPP_TO,
     instagramRecipientId: process.env.INSTAGRAM_RECIPIENT_ID,
     facebookRecipientId: process.env.FACEBOOK_RECIPIENT_ID,
     message,
     dryRun,
-    channels: ['whatsapp', 'instagram', 'facebook'], // enviar para todos
+    channels: ['whatsapp', 'instagram', 'facebook'],
   });
-
-  // Retornar resultado completo com todos os canais
-  return result;
 }
 
 function pickRoute(index) {
@@ -216,6 +245,13 @@ export async function runAutomationCycle({ source = 'manual', dryRun = false } =
 
   if (mode === 'OBSERVACAO') {
     result.reason = 'Sistema em modo observação; automações não executam.';
+    await recordAutomationRun(client, {
+      source,
+      mode,
+      status: 'skipped',
+      counts: {},
+      generated: {},
+    });
     return result;
   }
 
@@ -255,7 +291,9 @@ export async function runAutomationCycle({ source = 'manual', dryRun = false } =
     result.generated = generated;
     result.status = 'ok';
   } else {
-    result.generated = await createAutomationRecords(client, mode).then((data) => data).catch(() => ({ opportunities: 0, contents: 0, keywords: 0 }));
+    result.generated = await createAutomationRecords(client, mode)
+      .then((data) => data)
+      .catch(() => ({ opportunities: 0, contents: 0, keywords: 0 }));
     result.status = 'dry-run';
   }
 
@@ -289,6 +327,15 @@ export async function runAutomationCycle({ source = 'manual', dryRun = false } =
     };
   }
 
+  await recordAutomationRun(client, {
+    source,
+    mode,
+    status: result.status,
+    counts: result.counts,
+    generated: result.generated,
+    notification: result.notification,
+  });
+
   return result;
 }
 
@@ -301,7 +348,20 @@ export function startScheduler({ intervalMinutes = 5 } = {}) {
       const result = await runAutomationCycle({ source: 'scheduler' });
       console.log(JSON.stringify(result, null, 2));
     } catch (error) {
-      console.error('Automation cycle failed:', error instanceof Error ? error.message : error);
+      const message = error instanceof Error ? error.message : String(error);
+      console.error('Automation cycle failed:', message);
+      try {
+        const client = getSupabaseClient();
+        const mode = await getMode(client).catch(() => 'UNKNOWN');
+        await recordAutomationRun(client, {
+          source: 'scheduler',
+          mode,
+          status: 'error',
+          erro: message,
+        });
+      } catch (telemetryError) {
+        console.error('Automation error telemetry failed:', telemetryError instanceof Error ? telemetryError.message : telemetryError);
+      }
     }
   };
 
