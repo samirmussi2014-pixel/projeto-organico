@@ -1,0 +1,84 @@
+🚀 DEPLOY NO RAILWAY - PRONTO AGORA!
+=====================================
+
+✅ TUDO PRONTO - Siga estes 5 passos:
+
+1️⃣ ABRA: https://railway.app
+   - Faça login com GitHub (se não tiver conta, crie uma)
+
+2️⃣ CLIQUE: "New Project"
+
+3️⃣ CLIQUE: "Deploy from GitHub"
+
+4️⃣ SELECIONE: samirmussi2014-pixel/projeto-organico
+
+5️⃣ PREENCHA AS VARIÁVEIS (Rail vai pedir):
+
+SUPABASE:
+---------
+VITE_SUPABASE_URL=https://adsdgfrbdhjkaubsfban.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFkc2RnZnJiZGhqa2F1YnNmYmFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5NzcwODgsImV4cCI6MjEwMjU1MzA4OH0.pXw3OW3V7_qNd8X_fJut9qjJZqT-y7f2WxBJRQE4hDk
+
+WHATSAPP (ATIVO ✅):
+-------------------
+WHATSAPP_TO=5562986369013
+WHATSAPP_API_TOKEN=EAAyZCTyEIEAkBSURUwrUVT59ccciY9kZAxGVEG8o5c14bk6YrC1At0R0jApxMvpGuMIsJlZC7D12eJB5ZAPFD1OpxiljytJz6e3RI62SnNw8ZCIZBnLFu63R5TvulKMZBpWRmkS9aL7ZAnTBwSyJJgZBknRbv814JaCW2W9dRG97XPvIRomK3iHSyq2FeEM2pgRSeUaPTBlteH0Nl4ZAN3l4akmliZCdiuorsZBsZB8B5JlZCso0YbjgjOr2vGuAkyBYzmGK0hmqftN69iiD7mb91XZAriY
+WHATSAPP_PHONE_NUMBER_ID=1317299671463717
+WHATSAPP_ENABLED=true
+
+INSTAGRAM:
+----------
+INSTAGRAM_API_TOKEN=EAAyZCTyEIEAkBSTRSlnbcQwvrrOAWKbV75ZCHSm503HqNrizsS6AicKGDNG7afygqPZCd0ffFqNgk4PcB3MYg416jKXcEUSb6aOc6ZB9tyYLgvBAiQoZBxg6bEODAmYHZC5aaZAEOXb0exP0ICHBlR0KknOKbt2aW3R0oixH7PZAXXRHi3lSGo4gy1mjXQZAF7DTXlChO3nApK60lyvhPMhfgc6nn4CIqNiSnT0Vw7jtHZBCgWC3dJf27ULTFM7emgwCEDtZATcD7I3v4yzfTJv90uY
+INSTAGRAM_BUSINESS_ACCOUNT_ID=2282784092263093
+INSTAGRAM_RECIPIENT_ID=mussi_fretesbrasil
+
+FACEBOOK:
+---------
+FACEBOOK_API_TOKEN=EAAyZCTyEIEAkBSTRSlnbcQwvrrOAWKbV75ZCHSm503HqNrizsS6AicKGDNG7afygqPZCd0ffFqNgk4PcB3MYg416jKXcEUSb6aOc6ZB9tyYLgvBAiQoZBxg6bEODAmYHZC5aaZAEOXb0exP0ICHBlR0KknOKbt2aW3R0oixH7PZAXXRHi3lSGo4gy1mjXQZAF7DTXlChO3nApK60lyvhPMhfgc6nn4CIqNiSnT0Vw7jtHZBCgWC3dJf27ULTFM7emgwCEDtZATcD7I3v4yzfTJv90uY
+FACEBOOK_PAGE_ID=2282784092263093
+FACEBOOK_RECIPIENT_ID=61588558383289
+
+AUTOMAÇÃO:
+----------
+AUTOMATION_SCHEDULER=true
+AUTOMATION_INTERVAL_MINUTES=5
+WEBHOOK_VERIFY_TOKEN=mussi-fretes-webhook-token-2026
+PORT=3001
+
+6️⃣ CLIQUE: "Deploy"
+
+⏳ Espere 3-5 minutos...
+
+✅ PRONTO! Você receberá:
+- URL pública da sua app
+- Notificações WhatsApp a cada 5 minutos
+- Backend rodando 24/7 na nuvem
+
+
+🎯 TESTE APÓS DEPLOY:
+====================
+
+1. Railway mostrará uma URL como:
+   https://projeto-organico-prod.up.railway.app
+
+2. Teste health check:
+   Abra no navegador:
+   https://projeto-organico-prod.up.railway.app/health
+
+3. Deve retornar JSON com status ✅
+
+4. Aguarde primeira notificação WhatsApp (próximos 5 min)
+
+
+📊 STATUS FINAL:
+================
+
+✅ Autenticação Meta: CORRIGIDA
+✅ WhatsApp: OPERACIONAL
+✅ Código: VERSIONADO (GitHub)
+✅ Documentação: COMPLETA
+✅ Pronto para: RAILWAY DEPLOY
+
+Tudo está pronto! 🚀
+
+Acesse https://railway.app e comece agora!
